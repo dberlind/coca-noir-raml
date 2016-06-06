@@ -4,61 +4,221 @@ mediaType: application/json
 baseUri: http://mocksvc.mulesoft.com/mocks/301ca91c-9739-4ed0-b1e3-19525ee7a438/apiplatform/proxy/api/{version}
 version: 1
 
+schemas:
+  - coffee: !include cocoa-noir-include-coffee.schema
+
+resourceTypes:
+  - collection:
+      description: Collection of <<resourcePathName>> blends in Coffee Noir
+      get:
+        description: Get a list of <<resourcePathName>> blends based on <<resourcePathName|!singularize>> name
+        responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  <<exampleCollection>>
+      post:
+        description: Add a new <<resourcePathName|!singularize>> blend
+        queryParameters:
+          access_token:
+            displayName: Access Token
+            type: string
+            description: Token giving you permission to make call
+            required: true
+          name:
+            displayName: <<resourcePathName|!singularize>>Name
+            type: string
+            description: The name of the <<resourcePathName|!singularize>>
+            example: Ethiopian Blend 200
+          origin:
+             displayName: <<resourcePathName|!singularize>>Origin
+             type: string
+             description: The regional origin of the <<resourcePathName|!singularize>>
+             example: Ethiopia
+             required: false
+          strength:
+             displayName: <<resourcePathName|!singularize>>Strength
+             type: number
+             description: The strength fo the <<resourcePathName|!singularize>>
+             example: 7
+             required: false
+        body:
+          application/json:
+            schema: <<resourcePathName|!singularize>>
+            example: |
+                <<exampleItem>>
+        responses:
+          200:
+           body:
+             application/json:
+               schema: <<resourcePathName|!singularize>>
+               example:  |
+                       { "The <<resourcePathName|!singularize>> blend was added successfully" }
+  -  collection-item:
+      description: Entity representing a <<resourcePathName|!singularize>>
+      get:
+       description: |
+          Get the <<resourcePathName|!singularize>>
+          with <<resourcePathName|!singularize>>Id =
+          {<<resourcePathName|!singularize>>Id}
+       responses:
+          200:
+            body:
+              application/json:
+                example: |
+                  <<exampleItem>>
+          404:
+            body:
+              application/json:
+                example: |
+                  {"message": "<<resourcePathName|!singularize>> not found" }
+
+
 /coffees:
-  put:
-    queryParameters:
-      access_token:
-        displayName: Access Token
-        type: string
-        description: Token giving you permission to make call
-        required: true
-  post:
+  type:
+    collection:
+      exampleCollection: |
+        [
+          {
+             "coffeeId": "4422",
+             "name": "Caffe Latte",
+             "strength": 5,
+             "origin": "Italy"
+          },
+          {
+             "coffeeId": "4423",
+             "name": "Caffe Creme",
+             "strength": 4,
+             "origin": "Italy"
+          },
+          {
+             "coffeeId": "4498",
+             "name": "Moroccan Coffe",
+             "strength": 5,
+             "origin": "Morocco"
+          }
+        ]
+      exampleItem: |
+        {
+            "coffeeId": "4422",
+            "name": "Caffe Latte",
+            "strength": 5,
+            "origin": "Italy"
+        }
   get:
+    queryParameters:
+      name:
+            displayName: name
+            type: string
+            description: The name of the coffee
+            example: Ethiopian Blend 200
     responses:
         200:
          body:
            application/json:
+             schema: coffee
              example:  |
                        {
-                        "id": "4422",
+                         "coffeeId": "4422",
                          "name": "Caffe Latte",
-                         "description": "The term as used in English is a shortened form of the Italian caffè latte [kafˈfɛ lˈlatte], caffelatte [kaffeˈlatte] or caffellatte [kaffelˈlatte], which means 'milk coffee'. The word is also sometimes spelled latté or lattè in English with different kinds of accent marks, which can be a hyperforeignism or a deliberate attempt to indicate that the word is not pronounced according to the rules of English orthography. Wikipedia",
                          "strength": 5,
                          "origin": "Italy"
                        }
-    queryParameters:
-      name:
-      strength:
-      origin:
-  /{coffeeName}:
+  /{coffeeId}:
+    type:
+      collection-item:
+        exampleItem: |
+          {
+           "coffeeId": "4422",
+           "name": "Caffe Latte",
+           "strength": 5,
+           "origin": "Italy"
+          }
+    description: Coffee entity
     get:
-      description: Retrieve a specific coffee
+      description: Get the coffee `by {coffeeId}`
+      responses:
+        200:
+          body:
+            application/json:
+              example: |
+                {
+                 "coffeeId": "4422",
+                 "name": "Caffe Latte",
+                 "strength": 5,
+                 "origin": "Italy"
+                }
+
+  put:
+    queryParameters:
+      access_token:
+        displayName: access token
+        type: string
+        description: Token giving you permission to make call
+        required: true
+      name:
+            displayName: name
+            type: string
+            description: The name of the coffee
+            example: Ethiopian Blend 200
+      origin:
+             displayName: origin
+             type: string
+             description: The regional origin of the coffee
+             example: Ethiopia
+             required: false
+      strength:
+             displayName: strength
+             type: number
+             description: The strength of the coffee
+             example: 7
+             required: false
+  post:
+
+  /{name}:
+    get:
+      description: Retrieve a specific coffee by {name}
       responses:
         200:
          body:
            example:  |
                    [
                      {
-                      "id": "4422",
+                      "coffeeId": "4422",
                        "name": "Caffe Latte",
-                       "description": "The term as used in English is a shortened form of the Italian caffè latte [kafˈfɛ lˈlatte], caffelatte [kaffeˈlatte] or caffellatte [kaffelˈlatte], which means 'milk coffee'. The word is also sometimes spelled latté or lattè in English with different kinds of accent marks, which can be a hyperforeignism or a deliberate attempt to indicate that the word is not pronounced according to the rules of English orthography. Wikipedia",
                        "strength": 5,
                        "origin": "Italy"
                      }
                     ]
+        404:
+          body:
+            application/json:
+              example: |
+                {"message": "Coffee not found"}
       queryParameters:
-        Origin:
-             displayName: Origin
+        id:
+            displayName: coffeeId
+            type: string
+            description: The unique ID of the coffee
+            example: 4422
+        name:
+            displayName: name
+            type: string
+            description: The name of the coffee
+            example: Ethiopian Blend 200
+        origin:
+             displayName: origin
              type: string
              description: The regional origin of the coffee
              example: Ethiopia
              required: false
-        Strength:
-             displayName: Strength
+        strength:
+             displayName: strength
              type: number
-             description: The strength fo the coffee
+             description: The strength of the coffee
              example: 7
              required: false
     put:
-    /strength:
-      get:
+
+  

@@ -1,0 +1,32 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "coffeeId": {
+      "type": "string",
+      "required": false,
+      "minLength": 2,
+      "maxLength": 36
+    },
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "origin": {
+      "type": "string",
+      "required": true,
+      "minLength": 36,
+      "maxLength": 36,
+      "required": false
+    },
+    "strength": {
+      "type": "number",
+      "required": false,
+      "description": "The strength fo the coffee",
+      "required": false
+    }
+
+  }
+}
