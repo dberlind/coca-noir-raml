@@ -1,0 +1,64 @@
+#%RAML 0.8
+title: Cocoa Noir API
+mediaType: application/json
+baseUri: http://mocksvc.mulesoft.com/mocks/301ca91c-9739-4ed0-b1e3-19525ee7a438/apiplatform/proxy/api/{version}
+version: 1
+
+/coffees:
+  put:
+    queryParameters:
+      access_token:
+        displayName: Access Token
+        type: string
+        description: Token giving you permission to make call
+        required: true
+  post:
+  get:
+    responses:
+        200:
+         body:
+           application/json:
+             example:  |
+                       {
+                        "id": "4422",
+                         "name": "Caffe Latte",
+                         "description": "The term as used in English is a shortened form of the Italian caffè latte [kafˈfɛ lˈlatte], caffelatte [kaffeˈlatte] or caffellatte [kaffelˈlatte], which means 'milk coffee'. The word is also sometimes spelled latté or lattè in English with different kinds of accent marks, which can be a hyperforeignism or a deliberate attempt to indicate that the word is not pronounced according to the rules of English orthography. Wikipedia",
+                         "strength": 5,
+                         "origin": "Italy"
+                       }
+    queryParameters:
+      name:
+      strength:
+      origin:
+  /{coffeeName}:
+    get:
+      description: Retrieve a specific coffee
+      responses:
+        200:
+         body:
+           example:  |
+                   [
+                     {
+                      "id": "4422",
+                       "name": "Caffe Latte",
+                       "description": "The term as used in English is a shortened form of the Italian caffè latte [kafˈfɛ lˈlatte], caffelatte [kaffeˈlatte] or caffellatte [kaffelˈlatte], which means 'milk coffee'. The word is also sometimes spelled latté or lattè in English with different kinds of accent marks, which can be a hyperforeignism or a deliberate attempt to indicate that the word is not pronounced according to the rules of English orthography. Wikipedia",
+                       "strength": 5,
+                       "origin": "Italy"
+                     }
+                    ]
+      queryParameters:
+        Origin:
+             displayName: Origin
+             type: string
+             description: The regional origin of the coffee
+             example: Ethiopia
+             required: false
+        Strength:
+             displayName: Strength
+             type: number
+             description: The strength fo the coffee
+             example: 7
+             required: false
+    put:
+    /strength:
+      get:
