@@ -82,11 +82,11 @@ resourceTypes:
       exampleItem: !include cocoa-noir-include-coffee-new.sample
   get:
     queryParameters:
-      name:
-            displayName: name
-            type: string
-            description: The name of the coffee
-            example: Ethiopian Blend 200
+        query:
+          description: |
+            JSON array [{"field1","value1","operator1"},{"field2","value2","operator2"},...,{"fieldN","valueN","operatorN"}] with valid searchable fields: name
+          example:  |
+                  {["name", "Ethiopia", "like"] }
     responses:
         200:
          body:
