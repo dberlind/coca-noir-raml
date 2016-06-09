@@ -74,6 +74,40 @@ resourceTypes:
                 example: |
                   {"message": "<<resourcePathName|!singularize>> not found" }
 
+traits:
+  - searchable:
+      queryParameters:
+        query:
+          description: |
+            JSON array [{"field1","value1","operator1"},{"field2","value2","operator2"},...,{"fieldN","valueN","operatorN"}] <<description>>
+          example: |
+            <<exampleItem>>
+  - orderable:
+      queryParameters:
+        orderBy:
+          description: |
+            Order by field: <<fieldsList>>
+          type: string
+          required: false
+        order:
+          description: Order
+          enum: [desc, asc]
+          default: desc
+          required: false
+  - pageable:
+      queryParameters:
+        offset:
+          description: Skip over a number of elements by specifying an offset value for the query
+          type: integer
+          required: false
+          example: 20
+          default: 0
+        limit:
+          description: Limit the number of elements on the response
+          type: integer
+          required: false
+          example: 80
+          default: 10
 
 /coffees:
   type:
@@ -81,12 +115,11 @@ resourceTypes:
       exampleCollection: !include cocoa-noir-include-coffees.sample
       exampleItem: !include cocoa-noir-include-coffee-new.sample
   get:
-    queryParameters:
-        query:
-          description: |
-            JSON array [{"field1","value1","operator1"},{"field2","value2","operator2"},...,{"fieldN","valueN","operatorN"}] with valid searchable fields: name
-          example:  |
-                  {["name", "Ethiopia", "like"] }
+    is: [
+         searchable: {description: "with valid searchable fields: name", exampleItem: "[\"name\", \"Ethio\", \"like\"]"},
+         orderable: {fieldsList: "name"},
+         pageable
+       ]
     responses:
         200:
          body:
