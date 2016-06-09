@@ -1,0 +1,20 @@
+[
+  {
+     "coffeeId": "4422",
+     "name": "Caffe Latte",
+     "strength": 5,
+     "origin": "Italy"
+  },
+  {
+     "coffeeId": "4423",
+     "name": "Caffe Creme",
+     "strength": 4,
+     "origin": "Italy"
+  },
+  {
+     "coffeeId": "4498",
+     "name": "Moroccan Coffe",
+     "strength": 5,
+     "origin": "Morocco"
+  }
+]

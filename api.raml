@@ -78,34 +78,8 @@ resourceTypes:
 /coffees:
   type:
     collection:
-      exampleCollection: |
-        [
-          {
-             "coffeeId": "4422",
-             "name": "Caffe Latte",
-             "strength": 5,
-             "origin": "Italy"
-          },
-          {
-             "coffeeId": "4423",
-             "name": "Caffe Creme",
-             "strength": 4,
-             "origin": "Italy"
-          },
-          {
-             "coffeeId": "4498",
-             "name": "Moroccan Coffe",
-             "strength": 5,
-             "origin": "Morocco"
-          }
-        ]
-      exampleItem: |
-        {
-            "coffeeId": "4422",
-            "name": "Caffe Latte",
-            "strength": 5,
-            "origin": "Italy"
-        }
+      exampleCollection: !include cocoa-noir-include-coffees.sample
+      exampleItem: !include cocoa-noir-include-coffee-new.sample
   get:
     queryParameters:
       name:
@@ -118,37 +92,18 @@ resourceTypes:
          body:
            application/json:
              schema: coffee
-             example:  |
-                       {
-                         "coffeeId": "4422",
-                         "name": "Caffe Latte",
-                         "strength": 5,
-                         "origin": "Italy"
-                       }
+
   /{coffeeId}:
     type:
       collection-item:
-        exampleItem: |
-          {
-           "coffeeId": "4422",
-           "name": "Caffe Latte",
-           "strength": 5,
-           "origin": "Italy"
-          }
-    description: Coffee entity
+        exampleItem: !include cocoa-noir-include-coffee-new.sample
     get:
       description: Get the coffee `by {coffeeId}`
       responses:
         200:
           body:
             application/json:
-              example: |
-                {
-                 "coffeeId": "4422",
-                 "name": "Caffe Latte",
-                 "strength": 5,
-                 "origin": "Italy"
-                }
+              schema: coffee
 
   put:
     queryParameters:
@@ -174,51 +129,3 @@ resourceTypes:
              description: The strength of the coffee
              example: 7
              required: false
-  post:
-
-  /{name}:
-    get:
-      description: Retrieve a specific coffee by {name}
-      responses:
-        200:
-         body:
-           example:  |
-                   [
-                     {
-                      "coffeeId": "4422",
-                       "name": "Caffe Latte",
-                       "strength": 5,
-                       "origin": "Italy"
-                     }
-                    ]
-        404:
-          body:
-            application/json:
-              example: |
-                {"message": "Coffee not found"}
-      queryParameters:
-        id:
-            displayName: coffeeId
-            type: string
-            description: The unique ID of the coffee
-            example: 4422
-        name:
-            displayName: name
-            type: string
-            description: The name of the coffee
-            example: Ethiopian Blend 200
-        origin:
-             displayName: origin
-             type: string
-             description: The regional origin of the coffee
-             example: Ethiopia
-             required: false
-        strength:
-             displayName: strength
-             type: number
-             description: The strength of the coffee
-             example: 7
-             required: false
-    put:
-
-  
