@@ -1,6 +1,13 @@
-#%RAML 0.8
+#%RAML 1.0
 title: Cocoa Noir API
 mediaType: application/json
+annotationTypes:
+  deprecated: null
+  endpointVersion:
+    type: string
+  testHarness:
+    type: string # This line can be omitted as it's the default type
+  badge:         # This annotation type allows string values, too
 baseUri: http://mocksvc.mulesoft.com/mocks/301ca91c-9739-4ed0-b1e3-19525ee7a438/apiplatform/proxy/api/{version}
 version: 1
 
@@ -115,6 +122,9 @@ traits:
       exampleCollection: !include cocoa-noir-include-coffees.sample
       exampleItem: !include cocoa-noir-include-coffee-new.sample
   get:
+    (testHarness): coffeesTest
+    (deprecated):
+    (endpointVersion): 1.0.0
     is: [
          searchable: {description: "with valid searchable fields: name", exampleItem: "[\"name\", \"Ethio\", \"like\"]"},
          orderable: {fieldsList: "name"},
@@ -127,6 +137,9 @@ traits:
              schema: coffee
 
   /{coffeeId}:
+    (testHarness): coffeesTest
+    (deprecated):
+    (endpointVersion): 1.0.0
     type:
       collection-item:
         exampleItem: !include cocoa-noir-include-coffee-new.sample
@@ -139,6 +152,9 @@ traits:
               schema: coffee
 
   put:
+    (testHarness): coffeesTest
+    (deprecated):
+    (endpointVersion): 1.0.0
     queryParameters:
       access_token:
         displayName: access token
